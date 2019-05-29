@@ -4,12 +4,15 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
+var amqp = require('amqplib/callback_api');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var driversRouter = require('./routes/drivers');
 
 var app = express();
+
+console.log('Express server started...');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -40,6 +43,34 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+amqp.connect('amqp://guest:guest@localhost:5672', function(error0, connection) {
+  if (error0) {
+    console.log('Error trying to connect to RabbitMQ: ' + error0);
+    throw error0;
+  }
+  connection.createChannel(function(error1, channel) {
+    if (error1) {
+      console.log('Error trying to create RabbitMQ channel: ' + error1);
+      throw error1;
+    }
+    var exchange = 'drivers';
+    var key = 'drivers.update';
+
+    channel.assertQueue('', { exclusive: true }, function(error2, q) {
+      if (error2) {
+        throw error2;
+      }
+      console.log(' [*] Waiting for logs. To exit press CTRL+C');
+      channel.bindQueue(q.queue, exchange, key);
+      channel.consume(q.queue, function(msg) {
+        console.log(" [x] %s:'%s'", msg.fields.routingKey, msg.content.toString());
+      }, {
+        noAck: true
+      });
+    });
+  });
 });
 
 module.exports = app;
