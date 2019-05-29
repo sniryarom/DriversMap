@@ -65,7 +65,7 @@ amqp.connect('amqp://guest:guest@localhost:5672', function(error0, connection) {
       console.log(' [*] Waiting for logs. To exit press CTRL+C');
       channel.bindQueue(q.queue, exchange, key);
       channel.consume(q.queue, function(msg) {
-        console.log(" [x] %s:'%s'", msg.fields.routingKey, msg.content.toString());
+        //console.log(" [x] %s:'%s'", msg.fields.routingKey, msg.content.toString());
       }, {
         noAck: true
       });
