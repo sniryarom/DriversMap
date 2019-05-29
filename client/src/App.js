@@ -37,41 +37,7 @@ class App extends Component {
     }
   }
 
-  // notify = () => toast(`Users online : ${Object.keys(this.state.users_online).length}`, {
-  //   position: "top-right",
-  //   autoClose: 3000,
-  //   hideProgressBar: false,
-  //   closeOnClick: true,
-  //   pauseOnHover: true,
-  //   draggable: true,
-  //   type: 'info'
-  // });
-
-  // getLocation = () => {
-  //   if ("geolocation" in navigator) {
-  //     navigator.geolocation.watchPosition(position => {
-  //       let location = { lat: position.coords.latitude, lng: position.coords.longitude };
-  //       this.setState((prevState, props) => {
-  //         let newState = { ...prevState };
-  //         newState.center = location;
-  //         newState.locations[`${prevState.current_user}`] = location;
-  //         return newState;
-  //       });
-  //       axios.post("http://localhost:3128/update-location", {
-  //         username: this.state.current_user,
-  //         location: location
-  //       }).then(res => {
-  //         if (res.status === 200) {
-  //           console.log("new location updated successfully");
-  //         }
-  //       });
-  //     })
-  //  } else {
-  //     alert("Sorry, geolocation is not available on your device. You need that to use this app");
-  //   }
-  // }
-
- callAPI() {
+  callAPI() {
     fetch("http://localhost:9000/drivers")
       .then(res => res.json())
       .then(json => { 
@@ -92,56 +58,14 @@ class App extends Component {
     this.callAPI();
   }
 
-
- // componentDidMount() {
-    // let pusher = new Pusher('PUSHER_APP_KEY', {
-    //   authEndpoint: "http://localhost:3128/pusher/auth",
-    //   cluster: "mt1"
-    // })
-    // this.presenceChannel = pusher.subscribe('presence-channel');
-
-    // this.presenceChannel.bind('pusher:subscription_succeeded', members => {
-    //   this.setState({
-    //     users_online: members.members,
-    //     current_user: members.myID
-    //   });
-    //   this.getLocation();
-    //   this.notify();
-    // })
-
-    // this.presenceChannel.bind('location-update', body => {
-    //   this.setState((prevState, props) => {
-    //     const newState = { ...prevState }
-    //     newState.locations[`${body.username}`] = body.location;
-    //     return newState;
-    //   });
-    // });
-
-    // this.presenceChannel.bind('pusher:member_removed', member => {
-    //   this.setState((prevState, props) => {
-    //     const newState = { ...prevState };
-    //     // remove member location once they go offline
-    //     delete newState.locations[`${member.id}`];
-    //     // delete member from the list of online users
-    //     delete newState.users_online[`${member.id}`];
-    //     return newState;
-    //   })
-    //   this.notify()
-    // })
-
-    // this.presenceChannel.bind('pusher:member_added', member => {
-    //   this.notify();
-    // })
- // }
-
-  render() {
-    let locationMarkers = Object.keys(this.state.locations).map((username, id) => {
+   render() {
+    let locationMarkers = this.state.locations.map((value, index) => {
     return (
         <Marker
-          key={id}
-          title={username}
-          lat={this.state.locations[`${username}`].lat}
-          lng={this.state.locations[`${username}`].lng}
+          key={index}
+          title={value.username}
+          lat={value.lat}
+          lng={value.lng}
         >
         </Marker>
       );
@@ -161,74 +85,5 @@ class App extends Component {
     )
   }
 }
-
-// const Marker = ({ title }) => (
-//   <div className="marker-style">
-//     <img className="img-style" src="https://res.cloudinary.com/og-tech/image/upload/s--OpSJXuvZ--/v1545236805/map-marker_hfipes.png" alt={title} />
-//     <h3>{title}</h3>
-//   </div>
-// );
-
-// class App extends Component {
-
-//   constructor(props) {
-//     super(props);
-//     this.state = { apiResponse: "" };
-//   }
-
-//   callAPI() {
-//     // fetch("http://localhost:9000/map")
-//     //   .then(res => res.text())
-//     //   .then(res => this.setState({ apiResponse: res }))
-//     //   .catch(err => err);
-//     }
-
-//   componentDidMount() {
-//     this.callAPI();
-//   }
-
-//   render() {
-//     return (
-//       <div className="App">
-//       <div >
-//         <GoogleMap
-//           className="map-styles"
-//           bootstrapURLKeys={{ key: 'AIzaSyBSsICbZ6zyliCdgYcUyEIW5VVq1tIyshI' }}
-//           center={{ lat: 5.6219868, lng: -0.1733074 }}
-//           zoom={14}
-//         >
-//           <Marker
-//           title={'Current Location'}
-//           lat={5.6219868}
-//           lng={-0.1733074}
-//         >
-//           </Marker>
-//         </GoogleMap>
-//       </div>
-//       </div>
-//     );
-//   }
-// }
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
 
 export default App;
