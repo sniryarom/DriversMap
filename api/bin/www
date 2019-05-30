@@ -7,7 +7,8 @@
 var app = require('../app');
 var debug = require('debug')('api:server');
 var http = require('http');
-var socketIo = require("socket.io");
+var socketApi = require('../socketApi');
+
 /**
  * Get port from environment and store in Express.
  */
@@ -20,22 +21,6 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
-
-/**
- * Create socket.io
- */
-const io = socketIo(server);
-let interval;
-io.on("connection", socket => {
-  console.log("New client connected");
-  if (interval) {
-    clearInterval(interval);
-  }
-  interval = setInterval(() => getApiAndEmit(socket), 10000);
-  socket.on("disconnect", () => {
-    console.log("Client disconnected");
-  });
-});
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -104,3 +89,9 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+
+/**
+ * Create socket.io
+ */
+var io = socketApi.io;
+io.attach(server);

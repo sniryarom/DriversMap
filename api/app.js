@@ -45,6 +45,8 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+
+// initializting and connecting to the RabbitMQ drivers locations exchange
 amqp.connect('amqp://guest:guest@localhost:5672', function(error0, connection) {
   if (error0) {
     console.log('Error trying to connect to RabbitMQ: ' + error0);
@@ -62,7 +64,7 @@ amqp.connect('amqp://guest:guest@localhost:5672', function(error0, connection) {
       if (error2) {
         throw error2;
       }
-      console.log(' [*] Waiting for logs. To exit press CTRL+C');
+      console.log('RabbitMQ initialization completed. Witing for drivers locations...');
       channel.bindQueue(q.queue, exchange, key);
       channel.consume(q.queue, function(msg) {
         //console.log(" [x] %s:'%s'", msg.fields.routingKey, msg.content.toString());
