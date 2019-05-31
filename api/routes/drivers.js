@@ -1,9 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var socketApi = require('../socketApi');
-
-//var io = socketApi.io;
-socketApi.sendNotification();
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {

@@ -4,7 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors');
-var amqp = require('amqplib/callback_api');
+//var amqp = require('amqplib/callback_api');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -46,33 +46,33 @@ app.use(function(err, req, res, next) {
 });
 
 
-// initializting and connecting to the RabbitMQ drivers locations exchange
-amqp.connect('amqp://guest:guest@localhost:5672', function(error0, connection) {
-  if (error0) {
-    console.log('Error trying to connect to RabbitMQ: ' + error0);
-    throw error0;
-  }
-  connection.createChannel(function(error1, channel) {
-    if (error1) {
-      console.log('Error trying to create RabbitMQ channel: ' + error1);
-      throw error1;
-    }
-    var exchange = 'drivers';
-    var key = 'drivers.update';
+// // initializting and connecting to the RabbitMQ drivers locations exchange
+// amqp.connect('amqp://guest:guest@localhost:5672', function(error0, connection) {
+//   if (error0) {
+//     console.log('Error trying to connect to RabbitMQ: ' + error0);
+//     throw error0;
+//   }
+//   connection.createChannel(function(error1, channel) {
+//     if (error1) {
+//       console.log('Error trying to create RabbitMQ channel: ' + error1);
+//       throw error1;
+//     }
+//     var exchange = 'drivers';
+//     var key = 'drivers.update';
 
-    channel.assertQueue('', { exclusive: true }, function(error2, q) {
-      if (error2) {
-        throw error2;
-      }
-      console.log('RabbitMQ initialization completed. Witing for drivers locations...');
-      channel.bindQueue(q.queue, exchange, key);
-      channel.consume(q.queue, function(msg) {
-        //console.log(" [x] %s:'%s'", msg.fields.routingKey, msg.content.toString());
-      }, {
-        noAck: true
-      });
-    });
-  });
-});
+//     channel.assertQueue('', { exclusive: true }, function(error2, q) {
+//       if (error2) {
+//         throw error2;
+//       }
+//       console.log('RabbitMQ initialization completed. Waiting for drivers locations...');
+//       channel.bindQueue(q.queue, exchange, key);
+//       channel.consume(q.queue, function(msg) {
+//         //console.log(" [x] %s:'%s'", msg.fields.routingKey, msg.content.toString());
+//       }, {
+//         noAck: true
+//       });
+//     });
+//   });
+// });
 
 module.exports = app;

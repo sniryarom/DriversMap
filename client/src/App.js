@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import GoogleMap from 'google-map-react';
 import './App.css';
+import { subscribeToDrivers } from './api';
 
 const mapStyles = {
   width: '100%',
@@ -33,7 +34,8 @@ class App extends Component {
       center: {lat: 5.6219868, lng: -0.23223},
       locations: [],
       users_online: [],
-      current_user: ''
+      current_user: '',
+      timestamp: 'no stamps yet'
     }
   }
 
@@ -55,7 +57,8 @@ class App extends Component {
 
 
   componentDidMount() {
-    this.callAPI();
+    //this.callAPI();
+    subscribeToDrivers((err, timestamp) => this.setState({ timestamp }));
   }
 
    render() {
@@ -72,16 +75,22 @@ class App extends Component {
     });
 
     return (
-      <div >
-        <GoogleMap
-          style={mapStyles}
-          bootstrapURLKeys={{ key: 'AIzaSyBSsICbZ6zyliCdgYcUyEIW5VVq1tIyshI' }}
-          center={this.state.center}
-          zoom={17}
-        >
-          {locationMarkers}
-        </GoogleMap>
-      </div>
+      // <div >
+      //   <GoogleMap
+      //     style={mapStyles}
+      //     bootstrapURLKeys={{ key: 'AIzaSyBSsICbZ6zyliCdgYcUyEIW5VVq1tIyshI' }}
+      //     center={this.state.center}
+      //     zoom={17}
+      //   >
+      //     {locationMarkers}
+      //   </GoogleMap>
+      // </div>
+      <div className="App">
+      <p className="App-intro">
+      This is the timer value: {this.state.timestamp}
+      </p>
+    </div>
+
     )
   }
 }
