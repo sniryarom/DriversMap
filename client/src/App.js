@@ -114,16 +114,20 @@ class App extends Component {
     });
 
     return (
-      <div >
-        <GoogleMap
-          style={mapStyles}
-          bootstrapURLKeys={{ key: 'AIzaSyBSsICbZ6zyliCdgYcUyEIW5VVq1tIyshI' }}
-          center={this.state.center}
-          zoom={14}
-        >
-          {locationMarkers}
-        </GoogleMap>
+      <div class="title">
+         <h2 class="title">hi this is Kapten drivers location app</h2>
       </div>
+      // <div >
+      //   <GoogleMap
+      //     style={mapStyles}
+      //     bootstrapURLKeys={{ key: 'AIzaSyBSsICbZ6zyliCdgYcUyEIW5VVq1tIyshI' }}
+      //     center={this.state.center}
+      //     zoom={14}
+      //   >
+        
+      //     {locationMarkers}
+      //   </GoogleMap>
+      // </div>
     //   <div className="App">
     //   <p className="App-intro">
     //   This is the timer value: {this.state.timestamp}
