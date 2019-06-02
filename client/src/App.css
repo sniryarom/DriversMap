@@ -46,12 +46,30 @@ div.title {
   text-align: center;
   /* left: 30px;
    border: 3px solid #73AD21; */
+   margin-bottom: 20px;
 }
+
+h3.marker-title {
+  margin-top: -15px;
+  color: white;
+}
+
+h3.available {
+  background-color: green;
+}
+
+h3.ride {
+  background-color: orange;
+}
+
+h3.unavailable {
+  background-color: orangered;
+}
+
 
 h2.title {
   margin: 20px;
   color: white;
-
 }
 
 
