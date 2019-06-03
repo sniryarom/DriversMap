@@ -31,13 +31,30 @@
 .marker-style {
   height: 50px;
   width: 50px;
-  margin-top: -50px;
+  margin-top: -100px;
+  text-align: center;
 }
 
 .img-style {
   height: 100%;
 }
 
+h3.marker-title {
+  margin-top: -15px;
+  color: white;
+}
+
+h3.available {
+  background-color: green;
+}
+
+h3.ride {
+  background-color: orange;
+}
+
+h3.unavailable {
+  background-color: orangered;
+}
 
 @keyframes App-logo-spin {
   from {
