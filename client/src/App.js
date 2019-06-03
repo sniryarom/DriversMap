@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import GoogleMap from 'google-map-react';
-import { subscribeToDrivers } from './api';
+import { subscribeToDrivers } from './Api';
 import Marker from './Marker.js';
 import DriverData from './DriverData';
-import * as constants from './constants';
+import * as constants from './Constants';
 import './App.css';
 
 const mapStyles = {
@@ -14,7 +14,7 @@ const mapStyles = {
 const mapCenter = {
   lat: 48.83921794298303, 
   lng: 2.3558752615457
-}
+};
 
 class App extends Component {
 
@@ -64,11 +64,9 @@ class App extends Component {
     }
   }
 
-
-
   render() {
     let locationMarkers = this.state.locations.map((value, index) => {
-      var status = Date.now() - value.updateTime > process.env.REACT_APP_NO_SERVICE_INTERVAL_MILI ? 'unavailable' : value.state;
+      var status = Date.now() - value.updateTime > constants.NO_SERVICE_INTERVAL_MILI ? 'unavailable' : value.state;
       //console.log('rendering driver position lat: ' + value.position[0] + ', lng: ' + value.position[1])
     return (
         <Marker
@@ -84,19 +82,15 @@ class App extends Component {
     
     return (
       <div>
-        <header>dkdkddkd</header>
-        <div>
-          <GoogleMap
-            style={mapStyles}
-            bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAP_API_KEY }}
-            center={mapCenter}
-            zoom={14}
-          >
-            {locationMarkers}
-          </GoogleMap>
-      </div>
-      </div>
-        
+        <GoogleMap
+          style={mapStyles}
+          bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAP_API_KEY }}
+          center={mapCenter}
+          zoom={14}
+        >
+          {locationMarkers}
+        </GoogleMap>
+      </div>  
     )
   }
 }

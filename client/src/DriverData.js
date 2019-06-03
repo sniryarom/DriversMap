@@ -1,3 +1,6 @@
+/**
+ * Driver data that is maintained as a react state
+ */
 class DriverData {
 
     constructor(id, state, position) {
