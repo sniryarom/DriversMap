@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import GoogleMap from 'google-map-react';
-import { subscribeToDrivers } from './Api';
+import { subscribeToDrivers } from './api';
 import Marker from './Marker.js';
 import DriverData from './DriverData';
-import * as constants from './Constants';
+import * as constants from './constants';
 import './App.css';
 
 const mapStyles = {
@@ -19,9 +19,14 @@ const mapCenter = {
 class App extends Component {
 
   constructor(props) {
-    super(props)
+    super(props);
+    var newLocations = [];
+    //load driver locations from local storage first
+    if (localStorage.getItem('locations') !== null) {
+      newLocations = JSON.parse(localStorage.getItem('locations'));
+    }
     this.state = {
-      locations: []
+      locations: newLocations
     }
   }
 
@@ -54,15 +59,15 @@ class App extends Component {
 
   }
 
-  componentWillMount() {
-    var newLocations = [];
-    //load driver locations from local storage first
-    if (localStorage.getItem('locations') !== null) {
-      newLocations = JSON.parse(localStorage.getItem('locations'));
-      //set the new state to re-render
-      this.setState({locations: newLocations});
-    }
-  }
+  // componentWillMount() {
+  //   var newLocations = [];
+  //   //load driver locations from local storage first
+  //   if (localStorage.getItem('locations') !== null) {
+  //     newLocations = JSON.parse(localStorage.getItem('locations'));
+  //     //set the new state to re-render
+  //     this.setState({locations: newLocations});
+  //   }
+  // }
 
   render() {
     let locationMarkers = this.state.locations.map((value, index) => {
@@ -84,7 +89,7 @@ class App extends Component {
       <div>
         <GoogleMap
           style={mapStyles}
-          bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAP_API_KEY }}
+          bootstrapURLKeys={{ key: 'AIzaSyBSsICbZ6zyliCdgYcUyEIW5VVq1tIyshI' }}
           center={mapCenter}
           zoom={14}
         >

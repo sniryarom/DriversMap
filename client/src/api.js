@@ -1,5 +1,5 @@
 import openSocket from 'socket.io-client';
-import * as constants from './Constants';
+import * as constants from './constants';
 
 const socket = openSocket(constants.SOCKET_IO_SERVER_DEV);
 

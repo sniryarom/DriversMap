@@ -1,3 +1,7 @@
+/**
+ * A driver location marker for google maps
+ */
+
 import React from 'react';
 
 const Marker = ({ title, status }) => {
