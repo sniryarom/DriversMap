@@ -1,5 +1,3 @@
-'use strict';
-
 class DriverData {
 
     constructor(id, state, position) {
