@@ -20,20 +20,20 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    var newLocations = [];
+    var savedLocations = [];
     //load driver locations from local storage first
     if (localStorage.getItem('locations') !== null) {
-      newLocations = JSON.parse(localStorage.getItem('locations'));
+      savedLocations = JSON.parse(localStorage.getItem('locations'));
     }
+    //and set the initial state
     this.state = {
-      locations: newLocations
+      locations: savedLocations
     }
   }
 
   componentDidMount() {
     var newLocations = [];
-
-    //then load from server
+    //load from server
     subscribeToDrivers((err, data) => {
       let dataObj = JSON.parse(data);
       //console.log('updated driver data (from server): ' + JSON.stringify(dataObj));
@@ -59,17 +59,7 @@ class App extends Component {
 
   }
 
-  // componentWillMount() {
-  //   var newLocations = [];
-  //   //load driver locations from local storage first
-  //   if (localStorage.getItem('locations') !== null) {
-  //     newLocations = JSON.parse(localStorage.getItem('locations'));
-  //     //set the new state to re-render
-  //     this.setState({locations: newLocations});
-  //   }
-  // }
-
-  render() {
+ render() {
     let locationMarkers = this.state.locations.map((value, index) => {
       var status = Date.now() - value.updateTime > constants.NO_SERVICE_INTERVAL_MILI ? 'unavailable' : value.state;
       //console.log('rendering driver position lat: ' + value.position[0] + ', lng: ' + value.position[1])
@@ -89,7 +79,7 @@ class App extends Component {
       <div>
         <GoogleMap
           style={mapStyles}
-          bootstrapURLKeys={{ key: 'AIzaSyBSsICbZ6zyliCdgYcUyEIW5VVq1tIyshI' }}
+          bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAP_API_KEY }}
           center={mapCenter}
           zoom={14}
         >

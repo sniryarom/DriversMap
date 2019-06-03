@@ -47,16 +47,6 @@ io.on('connection', (client) => {
     });
 });
 
-
-// io.on('connection', (client) => {
-//     client.on('subscribeToDrivers', (interval) => {
-//       console.log('client is subscribing to drivers location with interval ', interval);
-//       setInterval(() => {
-//         client.emit('drivers', new Date());
-//       }, interval);
-//     });
-//   });
-
 socketApi.sendNotification = () => {
     console.log('sending a notif via socket.io');
     io.sockets.emit('drivers', {msg: 'Hello World!'});
