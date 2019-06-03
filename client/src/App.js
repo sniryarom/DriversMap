@@ -3,6 +3,7 @@ import GoogleMap from 'google-map-react';
 import { subscribeToDrivers } from './api';
 import Marker from './Marker.js';
 import DriverData from './DriverData';
+import * as constants from './constants';
 import './App.css';
 
 const mapStyles = {
@@ -24,14 +25,9 @@ class App extends Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     var newLocations = [];
-    //load driver locations from local storage first
-    if (localStorage.getItem('locations') !== null) {
-      newLocations = JSON.parse(localStorage.getItem('locations'));
-      //set the new state to re-render
-      this.setState({locations: newLocations});
-    }
+
     //then load from server
     subscribeToDrivers((err, data) => {
       let dataObj = JSON.parse(data);
@@ -47,7 +43,7 @@ class App extends Component {
         }
       }
       //add the driver if he's not in the location array, and the location array contains less than MAX_NUM drivers
-      if (!driverFound && newLocations.length < process.env.REACT_APP_MAX_NUM_DRIVERS) {
+      if (!driverFound && newLocations.length < constants.MAX_NUM_DRIVERS) {
         newLocations.push(driverData);
       }
       //set the new state to re-render
@@ -55,6 +51,17 @@ class App extends Component {
       //and save updated locations in the localstorage
       localStorage.setItem('locations', JSON.stringify(this.state.locations));
      });
+
+  }
+
+  componentWillMount() {
+    var newLocations = [];
+    //load driver locations from local storage first
+    if (localStorage.getItem('locations') !== null) {
+      newLocations = JSON.parse(localStorage.getItem('locations'));
+      //set the new state to re-render
+      this.setState({locations: newLocations});
+    }
   }
 
 
