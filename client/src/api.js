@@ -4,7 +4,7 @@ const socket = openSocket('http://localhost:9000');
 const interval = 100;
 
 function subscribeToDrivers(cb) {
-    socket.on('drivers', timestamp => cb(null, timestamp));
+    socket.on('drivers', data => cb(null, data));
     socket.emit('subscribeToDrivers', interval);
 } 
 

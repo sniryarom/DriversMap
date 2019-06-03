@@ -25,11 +25,19 @@ class App extends Component {
   }
 
   componentWillMount() {
+    var newLocations = [];
+    //load driver locations from local storage first
+    if (localStorage.getItem('locations') !== null) {
+      newLocations = JSON.parse(localStorage.getItem('locations'));
+      //set the new state to re-render
+      this.setState({locations: newLocations});
+    }
+    //then load from server
     subscribeToDrivers((err, data) => {
       let dataObj = JSON.parse(data);
       //console.log('updated driver data (from server): ' + JSON.stringify(dataObj));
       let driverData = new DriverData(dataObj.id, dataObj.state, dataObj.position);
-      var newLocations = this.state.locations.slice() //copy the array
+      newLocations = this.state.locations.slice() //copy the array
       let driverFound = false;
       for (var i = 0; i < newLocations.length - 1; i++) {
         if (newLocations[i].id === driverData.id) { //driver is in our location list
@@ -42,11 +50,16 @@ class App extends Component {
       if (!driverFound && newLocations.length < process.env.REACT_APP_MAX_NUM_DRIVERS) {
         newLocations.push(driverData);
       }
-      this.setState({locations: newLocations}); //set the new state to re-render
+      //set the new state to re-render
+      this.setState({locations: newLocations}); 
+      //and save updated locations in the localstorage
+      localStorage.setItem('locations', JSON.stringify(this.state.locations));
      });
   }
 
-   render() {
+
+
+  render() {
     let locationMarkers = this.state.locations.map((value, index) => {
       var status = Date.now() - value.updateTime > process.env.REACT_APP_NO_SERVICE_INTERVAL_MILI ? 'unavailable' : value.state;
       //console.log('rendering driver position lat: ' + value.position[0] + ', lng: ' + value.position[1])
